@@ -61,18 +61,6 @@ cp .env.example .env
 npm run dev
 ```
 
-## Environment Variables
-
-```env
-PORT=5000
-MONGODB_URI=mongodb://127.0.0.1:27017/savorybase
-JWT_SECRET=replace-with-a-long-random-secret
-JWT_EXPIRES_IN=1d
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=change-me
-FRONTEND_URL=http://localhost:3000
-```
-
 `FRONTEND_URL` can be a comma-separated list for multiple frontend origins.
 
 ## API Endpoints
@@ -115,9 +103,12 @@ Food fields:
 Allowed categories:
 
 - `Appetizer`
-- `Main`
+- `Main Course`
 - `Dessert`
-- `Beverage`
+- `Vegan`
+- `Gluten-Free`
+- `Seasonal`
+- `Chef Special`
 
 ## Response Format
 
