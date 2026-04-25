@@ -23,7 +23,7 @@ const env = {
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || "1d",
   adminUsername: process.env.ADMIN_USERNAME,
   adminPassword: process.env.ADMIN_PASSWORD,
-  frontendUrls: (process.env.FRONTEND_URL || "http://localhost:3000")
+  frontendUrls: (process.env.FRONTEND_URL || "http://localhost:5173")
     .split(",")
     .map((url) => url.trim())
     .filter(Boolean)
