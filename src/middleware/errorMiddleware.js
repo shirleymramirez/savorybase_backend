@@ -21,6 +21,11 @@ const errorHandler = (error, _req, res, _next) => {
     statusCode = 400;
   }
 
+  if (error.type === "entity.too.large") {
+    statusCode = 413;
+    message = "Uploaded image is too large";
+  }
+
   sendError(res, statusCode, message);
 };
 
