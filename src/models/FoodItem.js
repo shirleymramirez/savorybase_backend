@@ -17,10 +17,19 @@ const foodItemSchema = new mongoose.Schema(
       required: true,
       min: 0
     },
-    category: {
-      type: String,
-      enum: ["Appetizer", "Main Course", "Dessert", "Vegan", "Gluten-Free", "Seasonal", "Chef Special"],
-      required: true
+    categories: {
+      type: [
+        {
+          type: String,
+          enum: ["Appetizer", "Main Course", "Dessert", "Vegan", "Gluten-Free", "Seasonal", "Chef Special"],
+          trim: true
+        }
+      ],
+      required: true,
+      validate: {
+        validator: (categories) => Array.isArray(categories) && categories.length > 0,
+        message: "At least one category is required"
+      }
     },
     imageUrl: {
       type: String,

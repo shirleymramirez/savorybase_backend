@@ -95,12 +95,12 @@ Food fields:
   "name": "Truffle Pasta",
   "description": "Fresh pasta with truffle cream sauce",
   "price": 18.5,
-  "category": "Main",
+  "categories": ["Main Course", "Chef Special"],
   "imageUrl": "https://example.com/images/truffle-pasta.jpg"
 }
 ```
 
-Allowed categories:
+Allowed category values:
 
 - `Appetizer`
 - `Main Course`
