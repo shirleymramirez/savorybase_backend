@@ -35,6 +35,11 @@ const foodItemSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true
+    },
+    active: {
+      type: Boolean,
+      required: true,
+      default: true
     }
   },
   {

@@ -47,6 +47,7 @@ const baseFoodSchema = z.object({
   description: z.string().trim().min(1, "Description is required"),
   price: z.coerce.number().nonnegative("Price must be 0 or greater"),
   categories: categoriesSchema,
+  active: z.coerce.boolean().optional(),
   imageUrl: z.string().trim().url("Image URL must be a valid URL").optional()
 });
 
