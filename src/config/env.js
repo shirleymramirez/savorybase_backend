@@ -26,6 +26,7 @@ const env = {
   sessionIdleTimeoutMs: SESSION_IDLE_TIMEOUT_MS,
   adminUsername: process.env.ADMIN_USERNAME,
   adminPassword: process.env.ADMIN_PASSWORD,
+  orderStatsTimezone: process.env.ORDER_STATS_TIMEZONE || "UTC",
   frontendUrls: (process.env.FRONTEND_URL || "http://localhost:5173")
     .split(",")
     .map((url) => url.trim())

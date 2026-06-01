@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "migrate:food-categories": "node scripts/migrateFoodCategories.js"
+    "migrate:food-categories": "node scripts/migrateFoodCategories.js",
+    "refresh:order-frequency-stats": "node scripts/refreshOrderFrequencyStats.js"
   },
   "keywords": [
     "express",
