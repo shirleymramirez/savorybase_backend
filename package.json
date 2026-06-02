@@ -2,12 +2,13 @@
   "name": "savorybase-backend",
   "version": "1.0.0",
   "description": "RESTful Food CMS API for Savorybase",
-  "main": "server.js",
+  "main": "dist/server.js",
   "scripts": {
-    "dev": "nodemon server.js",
-    "start": "node server.js",
-    "migrate:food-categories": "node scripts/migrateFoodCategories.js",
-    "refresh:order-frequency-stats": "node scripts/refreshOrderFrequencyStats.js"
+    "build": "tsc",
+    "dev": "nodemon --watch src --watch server.ts --watch scripts --ext ts --exec ts-node --files server.ts",
+    "start": "node dist/server.js",
+    "migrate:food-categories": "ts-node scripts/migrateFoodCategories.ts",
+    "refresh:order-frequency-stats": "ts-node scripts/refreshOrderFrequencyStats.ts"
   },
   "keywords": [
     "express",
@@ -28,6 +29,13 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^1.4.13",
+    "@types/node": "^22.15.30",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   }
 }

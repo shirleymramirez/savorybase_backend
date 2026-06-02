@@ -1,9 +1,11 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const refreshOrderFrequencyStats = () => {
-  const { refreshOrderFrequencyStats: refresh } = require("../services/orderFrequencyStatsService");
-
-  refresh().catch((error) => {
+  import("../services/orderFrequencyStatsService").then(({ refreshOrderFrequencyStats: refresh }) => {
+    refresh().catch((error: Error) => {
+      console.error("Order frequency stats refresh failed:", error.message);
+    });
+  }).catch((error: Error) => {
     console.error("Order frequency stats refresh failed:", error.message);
   });
 };
@@ -75,4 +77,4 @@ orderItemSchema.post("save", refreshOrderFrequencyStats);
 orderItemSchema.post("findOneAndUpdate", refreshOrderFrequencyStats);
 orderItemSchema.post("findOneAndDelete", refreshOrderFrequencyStats);
 
-module.exports = mongoose.model("OrderItem", orderItemSchema);
+export default mongoose.model("OrderItem", orderItemSchema);

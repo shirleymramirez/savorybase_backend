@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+import mongoose, { mongo, Types } from "mongoose";
 
-const connectDB = require("../src/config/db");
-const FoodItem = require("../src/models/FoodItem");
+import connectDB from "../src/config/db";
+import FoodItem from "../src/models/FoodItem";
 
 const allowedCategories = new Set([
   "Appetizer",
@@ -13,11 +13,17 @@ const allowedCategories = new Set([
   "Chef Special"
 ]);
 
-const categoryAliases = {
+const categoryAliases: Record<string, string> = {
   Main: "Main Course"
 };
 
-const normalizeCategory = (category) => {
+type FoodCategoryMigrationRecord = {
+  _id: Types.ObjectId;
+  category?: unknown;
+  categories?: string[];
+};
+
+const normalizeCategory = (category: unknown): string | null => {
   if (typeof category !== "string") {
     return null;
   }
@@ -27,12 +33,12 @@ const normalizeCategory = (category) => {
   return categoryAliases[trimmed] || trimmed;
 };
 
-const migrateFoodCategories = async () => {
+const migrateFoodCategories = async (): Promise<void> => {
   await connectDB();
 
   const collection = FoodItem.collection;
   const foodsWithCategory = await collection
-    .find({ category: { $exists: true } })
+    .find<FoodCategoryMigrationRecord>({ category: { $exists: true } })
     .project({ _id: 1, category: 1, categories: 1 })
     .toArray();
 
@@ -41,8 +47,8 @@ const migrateFoodCategories = async () => {
     return;
   }
 
-  const operations = [];
-  const invalidFoods = [];
+  const operations: mongo.AnyBulkWriteOperation[] = [];
+  const invalidFoods: Array<{ id: string; category: unknown }> = [];
 
   for (const food of foodsWithCategory) {
     const hasCategories = Array.isArray(food.categories) && food.categories.length > 0;
@@ -59,7 +65,7 @@ const migrateFoodCategories = async () => {
 
     const category = normalizeCategory(food.category);
 
-    if (!allowedCategories.has(category)) {
+    if (!category || !allowedCategories.has(category)) {
       invalidFoods.push({
         id: food._id.toString(),
         category: food.category
@@ -100,7 +106,7 @@ const migrateFoodCategories = async () => {
 };
 
 migrateFoodCategories()
-  .catch((error) => {
+  .catch((error: Error) => {
     console.error("Food categories migration failed:", error.message);
     process.exitCode = 1;
   })

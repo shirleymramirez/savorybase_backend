@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const orderModifierSchema = new mongoose.Schema(
   {
@@ -55,4 +55,4 @@ orderModifierSchema.index(
   }
 );
 
-module.exports = mongoose.model("OrderModifier", orderModifierSchema);
+export default mongoose.model("OrderModifier", orderModifierSchema);

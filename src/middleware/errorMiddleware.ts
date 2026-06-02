@@ -1,10 +1,17 @@
-const { sendError } = require("../utils/apiResponse");
+import { ErrorRequestHandler, Request, Response } from "express";
 
-const notFound = (req, res) => {
+import { sendError } from "../utils/apiResponse";
+
+type HttpError = Error & {
+  name?: string;
+  type?: string;
+};
+
+const notFound = (req: Request, res: Response): void => {
   sendError(res, 404, `Route not found: ${req.method} ${req.originalUrl}`);
 };
 
-const errorHandler = (error, _req, res, _next) => {
+const errorHandler: ErrorRequestHandler = (error: HttpError, _req, res, _next) => {
   let statusCode = res.statusCode && res.statusCode !== 200 ? res.statusCode : 500;
   let message = error.message || "Internal server error";
 
@@ -29,7 +36,7 @@ const errorHandler = (error, _req, res, _next) => {
   sendError(res, statusCode, message);
 };
 
-module.exports = {
+export {
   notFound,
   errorHandler
 };

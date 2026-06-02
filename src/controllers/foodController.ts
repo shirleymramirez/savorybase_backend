@@ -1,12 +1,16 @@
-const FoodItem = require("../models/FoodItem");
-const asyncHandler = require("../middleware/asyncHandler");
-const { sendError, sendSuccess } = require("../utils/apiResponse");
-const buildFileUrl = require("../utils/buildFileUrl");
+import { Request, Response } from "express";
 
-const createFood = asyncHandler(async (req, res) => {
+import FoodItem from "../models/FoodItem";
+import asyncHandler from "../middleware/asyncHandler";
+import { sendError, sendSuccess } from "../utils/apiResponse";
+import buildFileUrl from "../utils/buildFileUrl";
+import { CreateFoodInput, UpdateFoodInput } from "../validators/foodValidator";
+
+const createFood = asyncHandler(async (req: Request, res: Response) => {
+  const validatedData = req.validatedData as CreateFoodInput;
   const payload = {
-    ...req.validatedData,
-    imageUrl: req.file ? buildFileUrl(req, req.file.filename) : req.validatedData.imageUrl
+    ...validatedData,
+    imageUrl: req.file ? buildFileUrl(req, req.file.filename) : validatedData.imageUrl
   };
 
   const food = await FoodItem.create(payload);
@@ -14,15 +18,16 @@ const createFood = asyncHandler(async (req, res) => {
   return sendSuccess(res, 201, "Food item created successfully", food);
 });
 
-const getFoods = asyncHandler(async (_req, res) => {
+const getFoods = asyncHandler(async (_req: Request, res: Response) => {
   const foods = await FoodItem.find().sort({ createdAt: -1 });
 
   return sendSuccess(res, 200, "Food items fetched successfully", foods);
 });
 
-const updateFood = asyncHandler(async (req, res) => {
+const updateFood = asyncHandler(async (req: Request, res: Response) => {
+  const validatedData = req.validatedData as UpdateFoodInput;
   const updates = {
-    ...req.validatedData
+    ...validatedData
   };
 
   if (req.file) {
@@ -41,7 +46,7 @@ const updateFood = asyncHandler(async (req, res) => {
   return sendSuccess(res, 200, "Food item updated successfully", food);
 });
 
-const deleteFood = asyncHandler(async (req, res) => {
+const deleteFood = asyncHandler(async (req: Request, res: Response) => {
   const food = await FoodItem.findByIdAndDelete(req.params.id);
 
   if (!food) {
@@ -53,7 +58,7 @@ const deleteFood = asyncHandler(async (req, res) => {
   });
 });
 
-module.exports = {
+export {
   createFood,
   getFoods,
   updateFood,

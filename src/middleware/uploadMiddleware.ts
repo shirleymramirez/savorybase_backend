@@ -1,6 +1,7 @@
-const fs = require("fs");
-const path = require("path");
-const multer = require("multer");
+import fs from "fs";
+import multer, { FileFilterCallback } from "multer";
+import path from "path";
+import { Request } from "express";
 
 const uploadsDir = path.join(process.cwd(), "uploads");
 
@@ -9,10 +10,10 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => {
+  destination: (_req: Request, _file: Express.Multer.File, cb) => {
     cb(null, uploadsDir);
   },
-  filename: (_req, file, cb) => {
+  filename: (_req: Request, file: Express.Multer.File, cb) => {
     const extension = path.extname(file.originalname);
     const baseName = path
       .basename(file.originalname, extension)
@@ -23,7 +24,7 @@ const storage = multer.diskStorage({
   }
 });
 
-const fileFilter = (_req, file, cb) => {
+const fileFilter = (_req: Request, file: Express.Multer.File, cb: FileFilterCallback): void => {
   if (file.mimetype.startsWith("image/")) {
     return cb(null, true);
   }
@@ -39,4 +40,4 @@ const upload = multer({
   }
 });
 
-module.exports = upload;
+export default upload;

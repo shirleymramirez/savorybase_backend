@@ -1,9 +1,9 @@
-const { z } = require("zod");
+import { z } from "zod";
 
-const categories = ["Appetizer", "Main Course", "Dessert", "Vegan", "Gluten-Free", "Seasonal", "Chef Special"];
+const categories = ["Appetizer", "Main Course", "Dessert", "Vegan", "Gluten-Free", "Seasonal", "Chef Special"] as const;
 const categoryMessage = "Categories must include only Appetizer, Main Course, Dessert, Vegan, Gluten-Free, Seasonal, Chef Special";
 
-const normalizeCategories = (value) => {
+const normalizeCategories = (value: unknown): unknown => {
   if (Array.isArray(value)) {
     return value;
   }
@@ -55,7 +55,14 @@ const createFoodSchema = baseFoodSchema;
 
 const updateFoodSchema = baseFoodSchema.partial();
 
-module.exports = {
+type CreateFoodInput = z.infer<typeof createFoodSchema>;
+type UpdateFoodInput = z.infer<typeof updateFoodSchema>;
+
+export {
   createFoodSchema,
   updateFoodSchema
+};
+export type {
+  CreateFoodInput,
+  UpdateFoodInput
 };

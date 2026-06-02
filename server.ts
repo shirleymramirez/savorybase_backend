@@ -1,8 +1,8 @@
-const app = require("./src/app");
-const connectDB = require("./src/config/db");
-const { env } = require("./src/config/env");
+import app from "./src/app";
+import connectDB from "./src/config/db";
+import { env } from "./src/config/env";
 
-const startServer = async () => {
+const startServer = async (): Promise<void> => {
   await connectDB();
 
   app.listen(env.port, () => {
@@ -10,7 +10,7 @@ const startServer = async () => {
   });
 };
 
-startServer().catch((error) => {
+startServer().catch((error: Error) => {
   console.error("Failed to start server:", error.message);
   process.exit(1);
 });

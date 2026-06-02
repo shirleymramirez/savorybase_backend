@@ -1,12 +1,13 @@
 # Savorybase Backend
 
-RESTful Food CMS backend built with Node.js, Express, MongoDB, Mongoose, JWT auth, Zod validation, and Multer-based image uploads.
+RESTful Food CMS backend built with Node.js, TypeScript, Express, MongoDB, Mongoose, JWT auth, Zod validation, and Multer-based image uploads.
 
 ## Project Structure
 
 ```text
 savorybase_backend/
-├── server.js
+├── server.ts
+├── tsconfig.json
 ├── package.json
 ├── .env.example
 ├── uploads/
@@ -36,7 +37,7 @@ savorybase_backend/
     │   └── signToken.js
     └── validators/
         ├── authValidator.js
-        └── foodValidator.js
+        └── foodValidator.ts
 ```
 
 ## Setup
@@ -59,6 +60,18 @@ cp .env.example .env
 
 ```bash
 npm run dev
+```
+
+Build production JavaScript into `dist/`:
+
+```bash
+npm run build
+```
+
+Run the compiled server:
+
+```bash
+npm start
 ```
 
 `FRONTEND_URL` can be a comma-separated list for multiple frontend origins.

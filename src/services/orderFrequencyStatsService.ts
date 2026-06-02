@@ -1,8 +1,22 @@
-const OrderFrequencyStat = require("../models/OrderFrequencyStat");
-const OrderItem = require("../models/OrderItem");
-const { env } = require("../config/env");
+import { PipelineStage } from "mongoose";
 
-const buildStatsPipeline = (period) => [
+import OrderFrequencyStat from "../models/OrderFrequencyStat";
+import OrderItem from "../models/OrderItem";
+import { env } from "../config/env";
+
+type OrderFrequencyPeriod = "daily" | "weekly";
+
+type OrderFrequencyStatRow = {
+  period: OrderFrequencyPeriod;
+  period_start: Date;
+  food_item_id: unknown;
+  order_count: number;
+  item_quantity: number;
+  gross_revenue: number;
+  refreshed_at: Date;
+};
+
+const buildStatsPipeline = (period: OrderFrequencyPeriod): PipelineStage[] => [
   {
     $lookup: {
       from: "orders",
@@ -64,13 +78,13 @@ const buildStatsPipeline = (period) => [
   }
 ];
 
-let activeRefresh = null;
+let activeRefresh: Promise<OrderFrequencyStatRow[]> | null = null;
 let refreshQueued = false;
 
-const runRefresh = async () => {
+const runRefresh = async (): Promise<OrderFrequencyStatRow[]> => {
   const [dailyStats, weeklyStats] = await Promise.all([
-    OrderItem.aggregate(buildStatsPipeline("daily")),
-    OrderItem.aggregate(buildStatsPipeline("weekly"))
+    OrderItem.aggregate<OrderFrequencyStatRow>(buildStatsPipeline("daily")),
+    OrderItem.aggregate<OrderFrequencyStatRow>(buildStatsPipeline("weekly"))
   ]);
 
   const stats = [...dailyStats, ...weeklyStats];
@@ -86,7 +100,7 @@ const runRefresh = async () => {
   return stats;
 };
 
-const refreshOrderFrequencyStats = async () => {
+const refreshOrderFrequencyStats = async (): Promise<OrderFrequencyStatRow[]> => {
   if (activeRefresh) {
     refreshQueued = true;
     return activeRefresh;
@@ -105,7 +119,11 @@ const refreshOrderFrequencyStats = async () => {
   return activeRefresh;
 };
 
-module.exports = {
+export {
   buildStatsPipeline,
   refreshOrderFrequencyStats
+};
+export type {
+  OrderFrequencyPeriod,
+  OrderFrequencyStatRow
 };

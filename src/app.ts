@@ -1,16 +1,16 @@
-const express = require("express");
-const cors = require("cors");
-const path = require("path");
+import cors, { CorsOptions } from "cors";
+import express from "express";
+import path from "path";
 
-const foodRoutes = require("./routes/foodRoutes");
-const authRoutes = require("./routes/authRoutes");
-const { notFound, errorHandler } = require("./middleware/errorMiddleware");
-const { env } = require("./config/env");
+import authRoutes from "./routes/authRoutes";
+import foodRoutes from "./routes/foodRoutes";
+import { env } from "./config/env";
+import { errorHandler, notFound } from "./middleware/errorMiddleware";
 
 const app = express();
 
 const allowedOrigins = env.frontendUrls;
-const corsOptions = {
+const corsOptions: CorsOptions = {
   origin(origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
       return callback(null, true);
@@ -43,4 +43,4 @@ app.use("/api/foods", foodRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-module.exports = app;
+export default app;

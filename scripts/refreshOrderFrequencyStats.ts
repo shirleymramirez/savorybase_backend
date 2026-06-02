@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const connectDB = require("../src/config/db");
-const { refreshOrderFrequencyStats } = require("../src/services/orderFrequencyStatsService");
+import connectDB from "../src/config/db";
+import { refreshOrderFrequencyStats } from "../src/services/orderFrequencyStatsService";
 
-const refreshStats = async () => {
+const refreshStats = async (): Promise<void> => {
   await connectDB();
 
   const stats = await refreshOrderFrequencyStats();
@@ -12,7 +12,7 @@ const refreshStats = async () => {
 };
 
 refreshStats()
-  .catch((error) => {
+  .catch((error: Error) => {
     console.error("Order frequency stats refresh failed:", error.message);
     process.exitCode = 1;
   })

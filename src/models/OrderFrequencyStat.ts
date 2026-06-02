@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const orderFrequencyStatSchema = new mongoose.Schema(
   {
@@ -57,4 +57,4 @@ orderFrequencyStatSchema.index(
   }
 );
 
-module.exports = mongoose.model("OrderFrequencyStat", orderFrequencyStatSchema);
+export default mongoose.model("OrderFrequencyStat", orderFrequencyStatSchema);

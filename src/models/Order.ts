@@ -1,11 +1,13 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const orderStatuses = ["pending", "preparing", "delivered", "canceled"];
+const orderStatuses = ["pending", "preparing", "delivered", "canceled"] as const;
 
 const refreshOrderFrequencyStats = () => {
-  const { refreshOrderFrequencyStats: refresh } = require("../services/orderFrequencyStatsService");
-
-  refresh().catch((error) => {
+  import("../services/orderFrequencyStatsService").then(({ refreshOrderFrequencyStats: refresh }) => {
+    refresh().catch((error: Error) => {
+      console.error("Order frequency stats refresh failed:", error.message);
+    });
+  }).catch((error: Error) => {
     console.error("Order frequency stats refresh failed:", error.message);
   });
 };
@@ -51,7 +53,16 @@ orderSchema.pre("save", function setCanceledAt(next) {
 });
 
 orderSchema.pre("findOneAndUpdate", function setCanceledAtForUpdate(next) {
-  const update = this.getUpdate() || {};
+  type OrderStatusUpdate = {
+    status?: string;
+    canceled_at?: Date;
+    $set?: {
+      status?: string;
+      canceled_at?: Date;
+    };
+  };
+
+  const update = (this.getUpdate() || {}) as OrderStatusUpdate;
   const status = update.status || (update.$set && update.$set.status);
 
   if (status === "canceled") {
@@ -73,5 +84,9 @@ orderSchema.post("save", refreshOrderFrequencyStats);
 orderSchema.post("findOneAndUpdate", refreshOrderFrequencyStats);
 orderSchema.post("findOneAndDelete", refreshOrderFrequencyStats);
 
-module.exports = mongoose.model("Order", orderSchema);
-module.exports.orderStatuses = orderStatuses;
+const Order = mongoose.model("Order", orderSchema);
+
+export {
+  orderStatuses
+};
+export default Order;

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const foodItemSchema = new mongoose.Schema(
   {
@@ -27,7 +27,7 @@ const foodItemSchema = new mongoose.Schema(
       ],
       required: true,
       validate: {
-        validator: (categories) => Array.isArray(categories) && categories.length > 0,
+        validator: (categories: string[]) => Array.isArray(categories) && categories.length > 0,
         message: "At least one category is required"
       }
     },
@@ -48,4 +48,4 @@ const foodItemSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("FoodItem", foodItemSchema);
+export default mongoose.model("FoodItem", foodItemSchema);

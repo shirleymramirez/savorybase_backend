@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const modifierItemSchema = new mongoose.Schema(
   {
@@ -36,4 +36,4 @@ modifierItemSchema.set("toObject", { virtuals: true });
 
 modifierItemSchema.index({ name: 1 });
 
-module.exports = mongoose.model("ModifierItem", modifierItemSchema);
+export default mongoose.model("ModifierItem", modifierItemSchema);
