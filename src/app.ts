@@ -4,6 +4,7 @@ import path from "path";
 
 import authRoutes from "./routes/authRoutes";
 import foodRoutes from "./routes/foodRoutes";
+import orderRoutes from "./routes/orderRoutes";
 import { env } from "./config/env";
 import { errorHandler, notFound } from "./middleware/errorMiddleware";
 
@@ -39,6 +40,8 @@ app.get("/api/health", (_req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/foods", foodRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/orders", orderRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
