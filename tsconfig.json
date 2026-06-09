@@ -10,7 +10,8 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "types": ["node", "express", "multer"]
+    "types": ["node", "express", "multer"],
+    "sourceMap": true
   },
   "include": ["server.ts", "src/**/*.ts", "src/**/*.d.ts", "scripts/**/*.ts"],
   "exclude": ["node_modules", "dist"]
