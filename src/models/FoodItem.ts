@@ -17,6 +17,18 @@ const foodItemSchema = new mongoose.Schema(
       required: true,
       min: 0
     },
+    originalInventory: {
+      type: Number,
+      required: true,
+      min: 0,
+      default: 0
+    },
+    remainingInventory: {
+      type: Number,
+      required: true,
+      min: 0,
+      default: 0
+    },
     categories: {
       type: [
         {

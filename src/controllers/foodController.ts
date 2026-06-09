@@ -10,6 +10,8 @@ const createFood = asyncHandler(async (req: Request, res: Response) => {
   const validatedData = req.validatedData as CreateFoodInput;
   const payload = {
     ...validatedData,
+    originalInventory: validatedData.originalInventory ?? 0,
+    remainingInventory: validatedData.remainingInventory ?? validatedData.originalInventory ?? 0,
     imageUrl: req.file ? buildFileUrl(req, req.file.filename) : validatedData.imageUrl
   };
 
@@ -20,14 +22,21 @@ const createFood = asyncHandler(async (req: Request, res: Response) => {
 
 const getFoods = asyncHandler(async (_req: Request, res: Response) => {
   const foods = await FoodItem.find().sort({ createdAt: -1 });
+  const normalizedFoods = foods.map((food) => ({
+    ...food.toObject(),
+    originalInventory: food.originalInventory ?? 0,
+    remainingInventory: food.remainingInventory ?? food.originalInventory ?? 0
+  }));
 
-  return sendSuccess(res, 200, "Food items fetched successfully", foods);
+  return sendSuccess(res, 200, "Food items fetched successfully", normalizedFoods);
 });
 
 const updateFood = asyncHandler(async (req: Request, res: Response) => {
   const validatedData = req.validatedData as UpdateFoodInput;
   const updates = {
-    ...validatedData
+    ...validatedData,
+    originalInventory: validatedData.originalInventory ?? 0,
+    remainingInventory: validatedData.remainingInventory ?? validatedData.originalInventory ?? 0
   };
 
   if (req.file) {
