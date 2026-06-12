@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { type NextFunction, type Request, type Response } from "express";
 import express from "express";
 
 import {
@@ -6,15 +6,15 @@ import {
   getFoods,
   updateFood,
   deleteFood
-} from "../controllers/foodController";
-import { protect } from "../middleware/authMiddleware";
-import validate from "../middleware/validateRequest";
-import upload from "../middleware/uploadMiddleware";
+} from "../controllers/foodController.ts";
+import { protect } from "../middleware/authMiddleware.ts";
+import validate from "../middleware/validateRequest.ts";
+import upload from "../middleware/uploadMiddleware.ts";
 import {
   createFoodSchema,
   updateFoodSchema
-} from "../validators/foodValidator";
-import { sendError } from "../utils/apiResponse";
+} from "../validators/foodValidator.ts";
+import { sendError } from "../utils/apiResponse.ts";
 
 const router = express.Router();
 

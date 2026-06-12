@@ -1,7 +1,7 @@
 import mongoose, { mongo, Types } from "mongoose";
 
-import connectDB from "../src/config/db";
-import FoodItem from "../src/models/FoodItem";
+import connectDB from "../src/config/db.ts";
+import FoodItem from "../src/models/FoodItem.ts";
 
 const allowedCategories = new Set([
   "Appetizer",

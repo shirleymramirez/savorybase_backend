@@ -1,14 +1,14 @@
-import { Request, Response } from "express";
+import { type Request, type Response } from "express";
 
-import asyncHandler from "../middleware/asyncHandler";
-import { env } from "../config/env";
-import signToken from "../utils/signToken";
-import { sendError, sendSuccess } from "../utils/apiResponse";
+import asyncHandler from "../middleware/asyncHandler.ts";
+import { env } from "../config/env.ts";
+import signToken from "../utils/signToken.ts";
+import { sendError, sendSuccess } from "../utils/apiResponse.ts";
 import {
   createSession,
   deleteExpiredSessions
-} from "../utils/sessionStore";
-import { LoginInput } from "../validators/authValidator";
+} from "../utils/sessionStore.ts";
+import { type LoginInput } from "../validators/authValidator.ts";
 
 const loginAdmin = asyncHandler(async (req: Request, res: Response) => {
   const { username, password } = req.validatedData as LoginInput;

@@ -1,7 +1,7 @@
-import { NextFunction, Request, RequestHandler, Response } from "express";
-import { z, ZodError, ZodTypeAny } from "zod";
+import { type NextFunction, type Request, type RequestHandler, type Response } from "express";
+import { z, ZodError, type ZodTypeAny } from "zod";
 
-import { sendError } from "../utils/apiResponse";
+import { sendError } from "../utils/apiResponse.ts";
 
 const validate = <T extends ZodTypeAny>(schema: T): RequestHandler => {
   return (req: Request, res: Response, next: NextFunction) => {

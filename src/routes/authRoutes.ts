@@ -1,8 +1,8 @@
 import express from "express";
 
-import { loginAdmin } from "../controllers/authController";
-import validate from "../middleware/validateRequest";
-import { loginSchema } from "../validators/authValidator";
+import { loginAdmin } from "../controllers/authController.ts";
+import validate from "../middleware/validateRequest.ts";
+import { loginSchema } from "../validators/authValidator.ts";
 
 const router = express.Router();
 

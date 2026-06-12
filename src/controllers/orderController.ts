@@ -1,14 +1,14 @@
-import { Request, Response } from "express";
+import { type Request, type Response } from "express";
 import { Types } from "mongoose";
 
-import FoodItem from "../models/FoodItem";
-import ModifierItem from "../models/ModifierItem";
-import Order from "../models/Order";
-import OrderItem from "../models/OrderItem";
-import OrderModifier from "../models/OrderModifier";
-import asyncHandler from "../middleware/asyncHandler";
-import { sendError, sendSuccess } from "../utils/apiResponse";
-import { CreateOrderInput, OrderItemInput, UpdateOrderInput } from "../validators/orderValidator";
+import FoodItem from "../models/FoodItem.ts";
+import ModifierItem from "../models/ModifierItem.ts";
+import Order from "../models/Order.ts";
+import OrderItem from "../models/OrderItem.ts";
+import OrderModifier from "../models/OrderModifier.ts";
+import asyncHandler from "../middleware/asyncHandler.ts";
+import { sendError, sendSuccess } from "../utils/apiResponse.ts";
+import { type CreateOrderInput, type OrderItemInput, type UpdateOrderInput } from "../validators/orderValidator.ts";
 
 const serializeOrder = async (orderId: Types.ObjectId | string) => {
   const order = await Order.findById(orderId).lean({ virtuals: true });

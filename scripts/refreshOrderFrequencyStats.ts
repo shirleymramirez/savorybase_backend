@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-import connectDB from "../src/config/db";
-import { refreshOrderFrequencyStats } from "../src/services/orderFrequencyStatsService";
+import connectDB from "../src/config/db.ts";
+import { refreshOrderFrequencyStats } from "../src/services/orderFrequencyStatsService.ts";
 
 const refreshStats = async (): Promise<void> => {
   await connectDB();

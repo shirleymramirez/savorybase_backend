@@ -1,6 +1,5 @@
-import jwt, { SignOptions } from "jsonwebtoken";
-
-import { env } from "../config/env";
+import jwt, { type SignOptions } from "jsonwebtoken";
+import { env } from "../config/env.ts";
 
 export type JwtPayload = {
   sessionId: string;

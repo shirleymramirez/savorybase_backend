@@ -1,10 +1,10 @@
-import { NextFunction, Request, Response } from "express";
+import { type NextFunction, type Request, type Response } from "express";
 import jwt from "jsonwebtoken";
 
-import { env } from "../config/env";
-import { sendError } from "../utils/apiResponse";
-import { touchSession } from "../utils/sessionStore";
-import { JwtPayload } from "../utils/signToken";
+import { env } from "../config/env.ts";
+import { sendError } from "../utils/apiResponse.ts";
+import { touchSession } from "../utils/sessionStore.ts";
+import { type JwtPayload } from "../utils/signToken.ts";
 
 const isJwtPayload = (decoded: string | jwt.JwtPayload): decoded is JwtPayload => {
   return (

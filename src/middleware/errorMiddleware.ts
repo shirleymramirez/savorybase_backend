@@ -1,6 +1,6 @@
-import { ErrorRequestHandler, Request, Response } from "express";
+import { type ErrorRequestHandler, type Request, type Response } from "express";
 
-import { sendError } from "../utils/apiResponse";
+import { sendError } from "../utils/apiResponse.ts";
 
 type HttpError = Error & {
   name?: string;

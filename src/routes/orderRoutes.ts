@@ -6,12 +6,12 @@ import {
   getOrderById,
   getOrders,
   updateOrder
-} from "../controllers/orderController";
-import validate from "../middleware/validateRequest";
+} from "../controllers/orderController.ts";
+import validate from "../middleware/validateRequest.ts";
 import {
   createOrderSchema,
   updateOrderSchema
-} from "../validators/orderValidator";
+} from "../validators/orderValidator.ts";
 
 const router = express.Router();
 

@@ -1,12 +1,12 @@
-import cors, { CorsOptions } from "cors";
+import cors, { type CorsOptions } from "cors";
 import express from "express";
 import path from "path";
 
-import authRoutes from "./routes/authRoutes";
-import foodRoutes from "./routes/foodRoutes";
-import orderRoutes from "./routes/orderRoutes";
-import { env } from "./config/env";
-import { errorHandler, notFound } from "./middleware/errorMiddleware";
+import authRoutes from "./routes/authRoutes.ts";
+import foodRoutes from "./routes/foodRoutes.ts";
+import orderRoutes from "./routes/orderRoutes.ts";
+import { env } from "./config/env.ts";
+import { errorHandler, notFound } from "./middleware/errorMiddleware.ts";
 
 const app = express();
 

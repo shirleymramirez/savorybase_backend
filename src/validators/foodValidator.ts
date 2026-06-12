@@ -42,7 +42,30 @@ const categoriesSchema = z.preprocess(
   ).min(1, "At least one category is required")
 );
 
-const baseFoodSchema = z.object({
+const normalizeInventoryFields = (value: unknown): unknown => {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return value;
+  }
+
+  const rawValue = value as Record<string, unknown>;
+  const legacyInventory = rawValue.inventory;
+  const originalInventory = rawValue.originalInventory;
+  const remainingInventory = rawValue.remainingInventory ?? rawValue.remainingStocks;
+
+  const normalizedValue = { ...rawValue };
+
+  if (typeof originalInventory === "undefined" && typeof legacyInventory !== "undefined") {
+    normalizedValue.originalInventory = legacyInventory;
+  }
+
+  if (typeof remainingInventory === "undefined" && typeof legacyInventory !== "undefined") {
+    normalizedValue.remainingInventory = legacyInventory;
+  }
+
+  return normalizedValue;
+};
+
+const foodSchemaBase = z.object({
   name: z.string().trim().min(1, "Name is required"),
   description: z.string().trim().min(1, "Description is required"),
   price: z.coerce.number().nonnegative("Price must be 0 or greater"),
@@ -53,9 +76,11 @@ const baseFoodSchema = z.object({
   imageUrl: z.string().trim().url("Image URL must be a valid URL").optional()
 });
 
+const baseFoodSchema = z.preprocess(normalizeInventoryFields, foodSchemaBase);
+
 const createFoodSchema = baseFoodSchema;
 
-const updateFoodSchema = baseFoodSchema.partial();
+const updateFoodSchema = z.preprocess(normalizeInventoryFields, foodSchemaBase.partial());
 
 type CreateFoodInput = z.infer<typeof createFoodSchema>;
 type UpdateFoodInput = z.infer<typeof updateFoodSchema>;

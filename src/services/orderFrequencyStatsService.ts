@@ -1,8 +1,8 @@
-import { PipelineStage } from "mongoose";
+import { type PipelineStage } from "mongoose";
 
-import OrderFrequencyStat from "../models/OrderFrequencyStat";
-import OrderItem from "../models/OrderItem";
-import { env } from "../config/env";
+import OrderFrequencyStat from "../models/OrderFrequencyStat.ts";
+import OrderItem from "../models/OrderItem.ts";
+import { env } from "../config/env.ts";
 
 type OrderFrequencyPeriod = "daily" | "weekly";
 

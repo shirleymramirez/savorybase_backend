@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { type Response } from "express";
 
 export type ApiErrorDetails = unknown[] | Record<string, unknown> | string | null;
 

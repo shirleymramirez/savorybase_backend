@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { orderStatuses } from "../models/Order";
+import { orderStatuses } from "../models/Order.ts";
 
 const objectIdSchema = z.string().regex(/^[0-9a-fA-F]{24}$/, "Must be a valid MongoDB ObjectId");
 

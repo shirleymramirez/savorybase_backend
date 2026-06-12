@@ -1,10 +1,10 @@
-import { Request, Response } from "express";
+import { type Request, type Response } from "express";
 
-import FoodItem from "../models/FoodItem";
-import asyncHandler from "../middleware/asyncHandler";
-import { sendError, sendSuccess } from "../utils/apiResponse";
-import buildFileUrl from "../utils/buildFileUrl";
-import { CreateFoodInput, UpdateFoodInput } from "../validators/foodValidator";
+import FoodItem from "../models/FoodItem.ts";
+import asyncHandler from "../middleware/asyncHandler.ts";
+import { sendError, sendSuccess } from "../utils/apiResponse.ts";
+import buildFileUrl from "../utils/buildFileUrl.ts";
+import { type CreateFoodInput, type UpdateFoodInput } from "../validators/foodValidator.ts";
 
 const createFood = asyncHandler(async (req: Request, res: Response) => {
   const validatedData = req.validatedData as CreateFoodInput;
@@ -22,11 +22,15 @@ const createFood = asyncHandler(async (req: Request, res: Response) => {
 
 const getFoods = asyncHandler(async (_req: Request, res: Response) => {
   const foods = await FoodItem.find().sort({ createdAt: -1 });
-  const normalizedFoods = foods.map((food) => ({
-    ...food.toObject(),
-    originalInventory: food.originalInventory ?? 0,
-    remainingInventory: food.remainingInventory ?? food.originalInventory ?? 0
-  }));
+  const normalizedFoods = foods.map((food) => {
+    const legacyInventory = (food as typeof food & { inventory?: number }).inventory;
+
+    return {
+      ...food.toObject(),
+      originalInventory: food.originalInventory ?? legacyInventory ?? 0,
+      remainingInventory: food.remainingInventory ?? food.originalInventory ?? legacyInventory ?? 0
+    };
+  });
 
   return sendSuccess(res, 200, "Food items fetched successfully", normalizedFoods);
 });

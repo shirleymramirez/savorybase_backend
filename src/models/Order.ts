@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const orderStatuses = ["pending", "preparing", "delivered", "canceled"] as const;
 
 const refreshOrderFrequencyStats = () => {
-  import("../services/orderFrequencyStatsService").then(({ refreshOrderFrequencyStats: refresh }) => {
+  import("../services/orderFrequencyStatsService.ts").then(({ refreshOrderFrequencyStats: refresh }) => {
     refresh().catch((error: Error) => {
       console.error("Order frequency stats refresh failed:", error.message);
     });
